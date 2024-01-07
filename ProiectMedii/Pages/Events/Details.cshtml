@@ -1,0 +1,90 @@
+﻿@page
+@model ProiectMedii.Pages.Events.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.EventName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.EventName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.EventDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.EventDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.DateStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.DateStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.DateEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.DateEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Location)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.MaxTickets)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.MaxTickets)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Event.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Event.Price)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>Schedules</h4>
+    <hr />
+    <ul>
+        @foreach (var schedule in Model.Event.Schedules)
+        {
+            <li>
+                @Html.DisplayFor(modelItem => schedule.SessionName) - 
+                @Html.DisplayFor(modelItem => schedule.StartTime) to 
+                @Html.DisplayFor(modelItem => schedule.EndTime)
+                Speaker: @Html.DisplayFor(modelItem => schedule.Speaker.Name)
+            </li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h4>Sponsors</h4>
+    <hr />
+    <ul>
+        @foreach (var eventSponsor in Model.Event.EventSponsors)
+        {
+            <li>
+                @Html.DisplayFor(modelItem => eventSponsor.Sponsor.Name)
+            </li>
+        }
+    </ul>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Event.EventId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

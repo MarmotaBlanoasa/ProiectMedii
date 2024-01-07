@@ -1,0 +1,105 @@
+﻿@page
+@model ProiectMedii.Pages.Events.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Event.EventId" />
+            <div class="form-group">
+                <label asp-for="Event.EventName" class="control-label"></label>
+                <input asp-for="Event.EventName" class="form-control" />
+                <span asp-validation-for="Event.EventName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.EventDescription" class="control-label"></label>
+                <input asp-for="Event.EventDescription" class="form-control" />
+                <span asp-validation-for="Event.EventDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.DateStart" class="control-label"></label>
+                <input asp-for="Event.DateStart" class="form-control" />
+                <span asp-validation-for="Event.DateStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.DateEnd" class="control-label"></label>
+                <input asp-for="Event.DateEnd" class="form-control" />
+                <span asp-validation-for="Event.DateEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Location" class="control-label"></label>
+                <input asp-for="Event.Location" class="form-control" />
+                <span asp-validation-for="Event.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.MaxTickets" class="control-label"></label>
+                <input asp-for="Event.MaxTickets" class="form-control" />
+                <span asp-validation-for="Event.MaxTickets" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Price" class="control-label"></label>
+                <input asp-for="Event.Price" class="form-control" />
+                <span asp-validation-for="Event.Price" class="text-danger"></span>
+            </div>
+            @foreach (var sponsor in Model.AllSponsors)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox"
+                           name="SelectedSponsorIds" value="@sponsor.SponsorId"
+                    @(Model.SelectedSponsorIds.Contains(sponsor.SponsorId) ? "checked=\"checked\"" : "") />
+                    <label class="form-check-label">@sponsor.Name</label>
+                </div>
+            }
+            @for (int i = 0; i < Model.Event.Schedules.Count; i++)
+            {
+                <div class="form-group">
+                    <label asp-for="@Model.Event.Schedules[i].SessionName" class="control-label"></label>
+                    <input asp-for="@Model.Event.Schedules[i].SessionName" class="form-control" />
+                    <span asp-validation-for="@Model.Event.Schedules[i].SessionName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Event.Schedules[i].Description" class="control-label"></label>
+                    <input asp-for="@Model.Event.Schedules[i].Description" class="form-control" />
+                    <span asp-validation-for="@Model.Event.Schedules[i].Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Event.Schedules[i].StartTime" class="control-label"></label>
+                    <input type="datetime-local" asp-for="@Model.Event.Schedules[i].StartTime" class="form-control" />
+                    <span asp-validation-for="@Model.Event.Schedules[i].StartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Event.Schedules[i].EndTime" class="control-label"></label>
+                    <input type="datetime-local" asp-for="@Model.Event.Schedules[i].EndTime" class="form-control" />
+                    <span asp-validation-for="@Model.Event.Schedules[i].EndTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Event.Schedules[i].SpeakerId" class="control-label"></label>
+                    <select asp-for="@Model.Event.Schedules[i].SpeakerId" asp-items="@ViewData["SpeakerId"] as SelectList" class="form-control">
+                        <option value="">-- Select Speaker --</option>
+                    </select>
+                    <span asp-validation-for="@Model.Event.Schedules[i].SpeakerId" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
