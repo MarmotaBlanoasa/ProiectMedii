@@ -48,8 +48,10 @@ namespace ProiectMedii.Pages.Events
 
             return Page();
         }
-        public async Task<IActionResult> OnPostBuyTicketAsync(int eventId, int price)
+        public async Task<IActionResult> OnPostBuyTicketAsync()
         {
+            long eventid = long.Parse(Request.Form["eventId"]);
+            decimal price = decimal.Parse(Request.Form["price"]);
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("/Account/Login");
@@ -57,27 +59,24 @@ namespace ProiectMedii.Pages.Events
 
             var userId = _userManager.GetUserId(User);
 
-            // Check if the user already has a ticket for this event
             var existingTicket = await _context.Ticket
-                .FirstOrDefaultAsync(t => t.EventId == eventId && t.UserId == userId);
+                .FirstOrDefaultAsync(t => t.EventId == eventid && t.UserId == userId);
             if (existingTicket != null)
             {
-                // Handle already having a ticket scenario
-                return Page();
+                return RedirectToPage("/Tickets/Index");
             }
 
             var ticket = new Ticket
             {
-                EventId = eventId,
-                UserId = userId,
                 TicketType = "Regular",
-                Price = price
+                Price = price,
+                EventId = eventid,
+                UserId = userId,
 
             };
             _context.Ticket.Add(ticket);
             await _context.SaveChangesAsync();
 
-            // Redirect to the user's tickets page or confirmation page
             return RedirectToPage("/Tickets/Index");
         }
     }

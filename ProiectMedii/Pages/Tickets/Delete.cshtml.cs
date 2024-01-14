@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using ProiectMedii.Models;
 
 namespace ProiectMedii.Pages.Tickets
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly ProiectMedii.Data.ProiectMediiContext _context;
@@ -29,7 +31,7 @@ namespace ProiectMedii.Pages.Tickets
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket.FirstOrDefaultAsync(m => m.TicketId == id);
+            var ticket = await _context.Ticket.Include(t => t.Event).FirstOrDefaultAsync(m => m.TicketId == id);
 
             if (ticket == null)
             {

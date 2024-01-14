@@ -88,8 +88,8 @@
 @if (isAuthenticated)
 {
     <form method="post">
-        <input type="hidden" asp-for="@Model.Event.EventId" />
-        <input type="hidden" asp-for="@Model.Event.Price" />
+        <input type="hidden" name="eventId" value="@Model.Event.EventId"/>
+        <input type="hidden" name="price" value="@Model.Event.Price" />
         <button type="submit" asp-page-handler="BuyTicket">Buy Ticket</button>
     </form>
 }

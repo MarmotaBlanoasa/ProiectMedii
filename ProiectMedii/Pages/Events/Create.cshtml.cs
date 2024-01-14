@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ProiectMedii.Data;
 using ProiectMedii.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProiectMedii.Pages.Events
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly ProiectMediiContext _context;

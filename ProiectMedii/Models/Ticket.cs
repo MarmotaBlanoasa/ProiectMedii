@@ -1,4 +1,6 @@
-﻿namespace ProiectMedii.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace ProiectMedii.Models
 {
     public class Ticket
     {
@@ -10,7 +12,6 @@
 
         // Navigation properties
         public Event? Event { get; set; }
-        public User? User { get; set; }
     }
 
 }

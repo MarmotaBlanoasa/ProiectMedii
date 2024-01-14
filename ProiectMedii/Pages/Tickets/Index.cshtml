@@ -6,11 +6,8 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Biletele mele</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -22,9 +19,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ticket[0].Event)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ticket[0].User)
             </th>
             <th></th>
         </tr>
@@ -39,13 +33,9 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Event.EventId)
+                @Html.DisplayFor(modelItem => item.Event.EventName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.TicketId">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.TicketId">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.TicketId">Delete</a>
             </td>

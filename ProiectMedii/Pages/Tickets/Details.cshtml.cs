@@ -28,7 +28,7 @@ namespace ProiectMedii.Pages.Tickets
                 return NotFound();
             }
 
-            var ticket = await _context.Ticket.FirstOrDefaultAsync(m => m.TicketId == id);
+            var ticket = await _context.Ticket.Include(t => t.Event).FirstOrDefaultAsync(m => m.TicketId == id);
             if (ticket == null)
             {
                 return NotFound();
