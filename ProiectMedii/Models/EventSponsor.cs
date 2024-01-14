@@ -6,8 +6,8 @@
         public long EventId { get; set; }
 
         // Navigation properties
-        public Sponsor Sponsor { get; set; }
-        public Event Event { get; set; }
+        public Sponsor? Sponsor { get; set; }
+        public Event? Event { get; set; }
     }
 
 }

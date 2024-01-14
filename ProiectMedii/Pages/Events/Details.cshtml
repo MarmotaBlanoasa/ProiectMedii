@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    var isAuthenticated = User.Identity.IsAuthenticated;
 }
 
 <h1>Details</h1>
@@ -84,6 +85,19 @@
         }
     </ul>
 </div>
+@if (isAuthenticated)
+{
+    <form method="post">
+        <input type="hidden" asp-for="@Model.Event.EventId" />
+        <input type="hidden" asp-for="@Model.Event.Price" />
+        <button type="submit" asp-page-handler="BuyTicket">Buy Ticket</button>
+    </form>
+}
+else
+{
+    <p>Please <a asp-page="/Identity/Account/Login">login</a> to buy tickets.</p>
+}
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Event.EventId">Edit</a> |
     <a asp-page="./Index">Back to List</a>

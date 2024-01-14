@@ -6,11 +6,11 @@
         public string TicketType { get; set; }
         public decimal Price { get; set; }
         public long EventId { get; set; }
-        public long UserId { get; set; }
+        public string UserId { get; set; }
 
         // Navigation properties
-        public Event Event { get; set; }
-        public User User { get; set; }
+        public Event? Event { get; set; }
+        public User? User { get; set; }
     }
 
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace ProiectMedii.Pages.Events
     public class DetailsModel : PageModel
     {
         private readonly ProiectMediiContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public DetailsModel(ProiectMediiContext context)
+        public DetailsModel(ProiectMediiContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public Event Event { get; set; }
@@ -44,6 +47,38 @@ namespace ProiectMedii.Pages.Events
             }
 
             return Page();
+        }
+        public async Task<IActionResult> OnPostBuyTicketAsync(int eventId, int price)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Account/Login");
+            }
+
+            var userId = _userManager.GetUserId(User);
+
+            // Check if the user already has a ticket for this event
+            var existingTicket = await _context.Ticket
+                .FirstOrDefaultAsync(t => t.EventId == eventId && t.UserId == userId);
+            if (existingTicket != null)
+            {
+                // Handle already having a ticket scenario
+                return Page();
+            }
+
+            var ticket = new Ticket
+            {
+                EventId = eventId,
+                UserId = userId,
+                TicketType = "Regular",
+                Price = price
+
+            };
+            _context.Ticket.Add(ticket);
+            await _context.SaveChangesAsync();
+
+            // Redirect to the user's tickets page or confirmation page
+            return RedirectToPage("/Tickets/Index");
         }
     }
 }
